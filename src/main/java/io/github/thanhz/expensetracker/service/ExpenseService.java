@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service(value = "expenseService")
+@Service
 public class ExpenseService {
 
     @Autowired
@@ -19,5 +19,9 @@ public class ExpenseService {
 
     public void addExpense(Expense expense){
         expenseRepository.save(expense);
+    }
+
+    public double getTotalExpense(){
+        return expenseRepository.getTotalExpense();
     }
 }

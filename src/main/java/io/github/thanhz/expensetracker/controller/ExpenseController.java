@@ -21,6 +21,12 @@ public class ExpenseController {
         return expenseService.getExpenses();
     }
 
+    //TODO Add Some sort of check for last update so that the call doesn't do aggregation everytime(memoization)
+    @GetMapping("/expense/total")
+    public Double getTotalExpenses() {
+        return expenseService.getTotalExpense();
+    }
+
     @PostMapping("/expense")
     public void addExpense(@RequestBody Expense expense) {
         expenseService.addExpense(expense);
