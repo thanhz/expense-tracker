@@ -56,4 +56,13 @@ public class Expense {
         this.cost = cost;
     }
 
+    @Override
+    public String toString() {
+        return "Expense{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", cost=" + cost +
+                '}';
+    }
 }
