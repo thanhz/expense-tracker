@@ -33,4 +33,9 @@ public class ExpenseController {
     public Expense updateExpense(@RequestBody Expense expense, @PathVariable int id) {
         return expenseService.updateExpense(expense, id);
     }
+
+    @PostMapping("/expense/{id}")
+    public void deleteExpense(@PathVariable int id) {
+        expenseService.deleteExpense(id);
+    }
 }

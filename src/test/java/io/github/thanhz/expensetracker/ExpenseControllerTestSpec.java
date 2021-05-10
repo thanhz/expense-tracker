@@ -17,8 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -77,6 +76,13 @@ public class ExpenseControllerTestSpec {
 
         mvc.perform(put("/expense/{id}", 1)
                 .content(asJsonString(expense3))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void givenExpenses_whenDeletingExpenses_thenReturnOk() throws Exception {
+        mvc.perform(post("/expense/{id}",2)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

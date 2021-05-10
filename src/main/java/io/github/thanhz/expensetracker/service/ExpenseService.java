@@ -33,4 +33,8 @@ public class ExpenseService {
                     return expenseRepository.save(expense);
                 }).orElseGet(() -> expenseRepository.save(update));
     }
+
+    public void deleteExpense(int id) {
+        expenseRepository.deleteById(id);
+    }
 }
