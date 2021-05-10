@@ -3,10 +3,7 @@ package io.github.thanhz.expensetracker.controller;
 import io.github.thanhz.expensetracker.model.Expense;
 import io.github.thanhz.expensetracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +27,10 @@ public class ExpenseController {
     @PostMapping("/expense")
     public void addExpense(@RequestBody Expense expense) {
         expenseService.addExpense(expense);
+    }
+
+    @PutMapping("/expense/{id}")
+    public Expense updateExpense(@RequestBody Expense expense, @PathVariable int id) {
+        return expenseService.updateExpense(expense, id);
     }
 }

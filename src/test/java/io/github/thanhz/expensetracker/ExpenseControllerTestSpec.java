@@ -1,5 +1,6 @@
 package io.github.thanhz.expensetracker;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.thanhz.expensetracker.controller.ExpenseController;
 import io.github.thanhz.expensetracker.model.Expense;
 import io.github.thanhz.expensetracker.service.ExpenseService;
@@ -15,9 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,14 +37,17 @@ public class ExpenseControllerTestSpec {
     @BeforeEach
     public void setup() {
         Expense expense1 = new Expense("expense1", "test", 100.0);
-        Expense expense2 = new Expense("expense1", "test", 200.0);
+        Expense expense2 = new Expense("expense2", "test", 200.0);
+        expense1.setId(1);
+        expense2.setId(2);
         expenseList = Arrays.asList(expense1, expense2);
 
         given(expenseService.getExpenses())
                 .willReturn(expenseList);
 
         given(expenseService.getTotalExpense())
-                .willReturn(300D);
+                .willReturn(expense1.getCost() + expense2.getCost());
+
     }
 
     @Test
@@ -52,7 +56,7 @@ public class ExpenseControllerTestSpec {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(expenseList.get(0).getId())));
+                .andExpect(jsonPath("$[0].id").value(expenseList.get(0).getId()));
     }
 
     @Test
@@ -60,6 +64,28 @@ public class ExpenseControllerTestSpec {
         mvc.perform(get("/expense/total")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(300D)));
+                .andExpect(jsonPath("$").value(300D));
+    }
+
+    //todo Find way to ignore expense parameter in expenseService.updateExpense(expense, id)
+    @Test
+    public void givenExpenses_whenUpdatingExpenses_thenReturnJson() throws Exception {
+        Expense expense3 = new Expense("update", "test", 300.0);
+
+        given(expenseService.updateExpense(expense3,1))
+                .willReturn(expense3);
+
+        mvc.perform(put("/expense/{id}", 1)
+                .content(asJsonString(expense3))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    public String asJsonString(Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

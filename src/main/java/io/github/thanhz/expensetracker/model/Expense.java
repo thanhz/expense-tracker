@@ -56,6 +56,12 @@ public class Expense {
         this.cost = cost;
     }
 
+    public void setExpense(Expense original, Expense update) {
+        original.setName(update.getName());
+        original.setType(update.getType());
+        original.setCost(update.getCost());
+    }
+
     @Override
     public String toString() {
         return "Expense{" +

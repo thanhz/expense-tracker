@@ -13,15 +13,24 @@ public class ExpenseService {
     @Autowired
     private ExpenseRepository expenseRepository;
 
-    public List<Expense> getExpenses(){
+    public List<Expense> getExpenses() {
         return expenseRepository.findAll();
     }
 
-    public void addExpense(Expense expense){
+    public void addExpense(Expense expense) {
         expenseRepository.save(expense);
     }
 
-    public double getTotalExpense(){
+    public double getTotalExpense() {
         return expenseRepository.getTotalExpense();
+    }
+
+    //Todo Maybe use .orElseThrow a custom exception
+    public Expense updateExpense(Expense update, int id) {
+        return expenseRepository.findById(id).map(
+                expense -> {
+                    expense.setExpense(expense, update);
+                    return expenseRepository.save(expense);
+                }).orElseGet(() -> expenseRepository.save(update));
     }
 }
