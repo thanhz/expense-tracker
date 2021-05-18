@@ -18,15 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Orders() {
-  const [count, setCount] = useState([]);
+export default function Expenses() {
+  const [list, setCount] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:8080/expense`)
       .then((response) => response.json()
       .then((data) => setCount(data)))
       .catch((e) => console.log(e));
-  });
+  }, []);
 
   const classes = useStyles();
   return (
@@ -42,7 +42,7 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {count.map((row) => (
+          {list.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.date}</TableCell>
               <TableCell>{row.name}</TableCell>
