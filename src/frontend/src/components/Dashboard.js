@@ -21,7 +21,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { mainListItems, secondaryListItems } from './Listitems';
 import Chart from './Chart';
 import Deposits from './Deposits';
-import Orders from './Orders';
+import Expenses from './Expenses';
 
 function Copyright() {
   return (
@@ -188,7 +188,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <Expenses />
               </Paper>
             </Grid>
           </Grid>
