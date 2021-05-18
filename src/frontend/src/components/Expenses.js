@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Expenses() {
-  const [list, setCount] = useState([]);
+  const [list, setList] = useState([]);
 
   useEffect(() => {
     fetch(`http://localhost:8080/expense`)
       .then((response) => response.json()
-      .then((data) => setCount(data)))
+      .then((data) => setList(data)))
       .catch((e) => console.log(e));
   }, []);
 
