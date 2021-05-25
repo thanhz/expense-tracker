@@ -2,6 +2,8 @@ package io.github.thanhz.expensetracker.service;
 
 import io.github.thanhz.expensetracker.dao.ExpenseRepository;
 import io.github.thanhz.expensetracker.model.Expense;
+import io.github.thanhz.expensetracker.model.ExpenseTypeCost;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,10 @@ public class ExpenseService {
         return expenseRepository.getTotalExpense();
     }
 
+    public List<ExpenseTypeCost> getTypeCost() {
+        return expenseRepository.findTypeCost();
+    }
+
     //Todo Maybe use .orElseThrow a custom exception
     public Expense updateExpense(Expense update, int id) {
         return expenseRepository.findById(id).map(
@@ -37,4 +43,5 @@ public class ExpenseService {
     public void deleteExpense(int id) {
         expenseRepository.deleteById(id);
     }
+
 }

@@ -1,6 +1,7 @@
 package io.github.thanhz.expensetracker.controller;
 
 import io.github.thanhz.expensetracker.model.Expense;
+import io.github.thanhz.expensetracker.model.ExpenseTypeCost;
 import io.github.thanhz.expensetracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,11 @@ public class ExpenseController {
     @GetMapping("/expense/total")
     public Double getTotalExpenses() {
         return expenseService.getTotalExpense();
+    }
+
+    @GetMapping("/expense/total/type")
+    public List<ExpenseTypeCost> getTypeCost() {
+        return expenseService.getTypeCost();
     }
 
     @PostMapping("/expense")

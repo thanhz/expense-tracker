@@ -1,54 +1,41 @@
-import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import React,{useState, useEffect} from 'react';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData('00:00', 0),
-  createData('03:00', 300),
-  createData('06:00', 600),
-  createData('09:00', 800),
-  createData('12:00', 1500),
-  createData('15:00', 2000),
-  createData('18:00', 2400),
-  createData('21:00', 2400),
-  createData('24:00', undefined),
-];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function Chart() {
-  const theme = useTheme();
+  const [costs, setList] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/expense/total/type`)
+      .then((response) => response.json()
+      .then((data) => setList(data)))
+      .catch((e) => console.log(e));
+  }, []);
+
 
   return (
     <React.Fragment>
-      <Title>Today</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
+    <Title>Overview</Title>
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart width={400} height={400}>
+        <Pie
+          data={costs}
+          cx="50%"
+          cy="50%"
+          labelLine={true}
+          label={(entry) => entry.type}
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="cost"
         >
-          <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-          <YAxis stroke={theme.palette.text.secondary}>
-            <Label
-              angle={270}
-              position="left"
-              style={{ textAnchor: 'middle', fill: theme.palette.text.primary }}
-            >
-              Sales ($)
-            </Label>
-          </YAxis>
-          <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
-        </LineChart>
-      </ResponsiveContainer>
+          {costs.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    </ResponsiveContainer>
     </React.Fragment>
   );
 }

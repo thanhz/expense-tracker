@@ -1,6 +1,7 @@
 package io.github.thanhz.expensetracker;
 
 import io.github.thanhz.expensetracker.model.Expense;
+import io.github.thanhz.expensetracker.model.ExpenseTypeCost;
 import io.github.thanhz.expensetracker.service.ExpenseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import java.util.List;
 
 @SpringBootApplication
 public class ExpenseTrackerApplication {
@@ -26,15 +29,17 @@ public class ExpenseTrackerApplication {
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
 			logger.info("ADDING SOME EXPENSES");
-			repository.addExpense(new Expense("Stocks","Investment",100.0));
-			repository.addExpense(new Expense("Food","General",200.0));
+			repository.addExpense(new Expense("Freetrade","Investment",20.0));
+			repository.addExpense(new Expense("Binance","Investment",40.0));
+			repository.addExpense(new Expense("Food","General",10.0));
+			repository.addExpense(new Expense("Dream house","Rent",30.0));
 
 			logger.info("ALL EXPENSES");
 			logger.info(repository.getExpenses().toString());
 
-			Double total = repository.getTotalExpense();
-			logger.info("TOTAL EXPENSE: " + total );
-
+			logger.info("TOTAL EXPENSE: " + repository.getTotalExpense());
+			List<ExpenseTypeCost> typeCost = repository.getTypeCost();
+			typeCost.forEach(type -> logger.info(type.getType() + ":" + type.getCost()));
 		};
 	}
 

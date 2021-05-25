@@ -40,17 +40,13 @@ public class ExpenseControllerTestSpec {
         expense1.setId(1);
         expense2.setId(2);
         expenseList = Arrays.asList(expense1, expense2);
-
-        given(expenseService.getExpenses())
-                .willReturn(expenseList);
-
-        given(expenseService.getTotalExpense())
-                .willReturn(expense1.getCost() + expense2.getCost());
-
     }
 
     @Test
     public void givenExpenses_whenGetExpenses_thenReturnJsonArray() throws Exception {
+        given(expenseService.getExpenses())
+                .willReturn(expenseList);
+
         mvc.perform(get("/expense")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -60,6 +56,9 @@ public class ExpenseControllerTestSpec {
 
     @Test
     public void givenExpenses_whenGetTotalExpenses_thenReturnTotalCost() throws Exception {
+        given(expenseService.getTotalExpense())
+                .willReturn(expenseList.get(0).getCost() + expenseList.get(1).getCost());
+
         mvc.perform(get("/expense/total")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -71,7 +70,7 @@ public class ExpenseControllerTestSpec {
     public void givenExpenses_whenUpdatingExpenses_thenReturnJson() throws Exception {
         Expense expense3 = new Expense("update", "test", 300.0);
 
-        given(expenseService.updateExpense(expense3,1))
+        given(expenseService.updateExpense(expense3, 1))
                 .willReturn(expense3);
 
         mvc.perform(put("/expense/{id}", 1)
@@ -82,7 +81,7 @@ public class ExpenseControllerTestSpec {
 
     @Test
     public void givenExpenses_whenDeletingExpenses_thenReturnOk() throws Exception {
-        mvc.perform(post("/expense/{id}",2)
+        mvc.perform(post("/expense/{id}", 2)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
