@@ -29,9 +29,10 @@ public class ExpenseTrackerApplication {
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
 			logger.info("ADDING SOME EXPENSES");
-			repository.addExpense(new Expense("Stocks","Investment",100.0));
-			repository.addExpense(new Expense("Stocks","Investment",222.0));
-			repository.addExpense(new Expense("Food","General",200.0));
+			repository.addExpense(new Expense("Freetrade","Investment",20.0));
+			repository.addExpense(new Expense("Binance","Investment",40.0));
+			repository.addExpense(new Expense("Food","General",10.0));
+			repository.addExpense(new Expense("Dream house","Rent",30.0));
 
 			logger.info("ALL EXPENSES");
 			logger.info(repository.getExpenses().toString());
