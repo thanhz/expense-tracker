@@ -27,7 +27,7 @@ export default function TotalExpense() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Recent Deposits</Title>
+      <Title>Total Expense</Title>
       <Typography component="p" variant="h4">
         £{count}
       </Typography>
@@ -36,7 +36,7 @@ export default function TotalExpense() {
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+          View Expense
         </Link>
       </div>
     </React.Fragment>
