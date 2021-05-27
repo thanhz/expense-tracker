@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Deposits() {
+export default function TotalExpense() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {    

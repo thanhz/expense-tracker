@@ -6,12 +6,18 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 export default function Chart() {
   const [costs, setList] = useState([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     fetch(`http://localhost:8080/expense/total/type`)
       .then((response) => response.json()
       .then((data) => setList(data)))
       .catch((e) => console.log(e));
+
+      fetch(`http://localhost:8080/expense/total`)
+      .then(response => response.json()
+      .then(data => setTotal(data)))
+      .catch(e => console.log(e))
   }, []);
 
 
@@ -19,13 +25,13 @@ export default function Chart() {
     <React.Fragment>
     <Title>Overview</Title>
     <ResponsiveContainer width="100%" height="100%">
-      <PieChart width={400} height={400}>
+      <PieChart>
         <Pie
           data={costs}
           cx="50%"
           cy="50%"
           labelLine={true}
-          label={(entry) => entry.type}
+          label={(entry) => `${entry.type} ${entry.value/total * 100}%`}
           outerRadius={80}
           fill="#8884d8"
           dataKey="cost"
