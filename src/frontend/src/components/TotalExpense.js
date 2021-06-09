@@ -32,7 +32,7 @@ export default function TotalExpense() {
         £{count}
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        on 15 March, 2019
+      {new Date().toString()}
       </Typography>
       <div>
         <Link color="primary" href="#" onClick={preventDefault}>
